@@ -42,11 +42,20 @@ t_ignore  = ' \t'
 
 # ------------------  Code for ply -------------------------------------
 
+# Define a rule to rule to read the data
+def readData():
+    with open('datosSitios.xml', 'r') as file:
+        data = file.read()
+    return data
+
 # Build the lexer
 lexer = lex.lex()
 
+# Read the data
+data = readData()
+
 # Give the data to the lexer
-# lexer.input(data)
+lexer.input(data)
  
 # While loop to tokenize the data
 while True:
