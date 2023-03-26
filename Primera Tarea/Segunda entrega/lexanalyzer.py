@@ -37,6 +37,52 @@ def t_error(token):
     print("Illegal character '%s'" % token.value[0])
     token.lexer.skip(1)
 
+# Regular expression rules for simple tokens
+t_OPEN_TAG_DATA=r'\<data\>'
+t_CLOSE_TAG_DATA=r'\<\/data\>'
+
+t_OPEN_TAG_TOPICS=r'\<topics\>'
+t_CLOSE_TAG_TOPICS=r'\<\/topics\>'
+
+t_OPEN_TAG_TOPIC=r'\<topic\>'
+t_CLOSE_TAG_TOPIC=r'\<\/topic\>'
+
+t_OPEN_TAG_REGIONS=r'\<regions\>'
+t_CLOSE_TAG_REGIONS=r'\<\/regions\>'
+
+t_OPEN_TAG_REGION=r'\<region\>'
+t_CLOSE_TAG_REGION=r'\<\/region\>'
+
+t_OPEN_TAG_SITES=r'\<sites\>'
+t_CLOSE_TAG_SITES=r'\<\/sites\>'
+
+t_OPEN_TAG_SITE=r'\<site\>'
+t_CLOSE_TAG_SITE=r'\<\/site\>'
+
+t_OPEN_TAG_URL=r'\<url\>'
+t_CLOSE_TAG_URL=r'\<\/url\>'
+
+t_OPEN_TAG_TITLE=r'\<title\>'
+t_CLOSE_TAG_TITLE=r'\<\/title\>'
+
+t_OPEN_TAG_RECORDS=r'\<records\>'
+t_CLOSE_TAG_RECORDS=r'\<\/records\>'
+
+t_OPEN_TAG_RECORD=r'\<record\>'
+t_CLOSE_TAG_RECORD=r'\<\/record\>'
+
+t_OPEN_TAG_INITIAL_DATE=r'\<initial\-date\>'
+t_CLOSE_TAG_INITIAL_DATE=r'\<\/initial\-date\>'
+
+t_OPEN_TAG_FINAL_DATE=r'\<final\-date\>'
+t_CLOSE_TAG_FINAL_DATE=r'\<\/final\-date\>'
+
+t_OPEN_TAG_NUMBER_OF_VISITS=r'\<number\-of\-visits\>'
+t_CLOSE_TAG_NUMBER_OF_VISITS=r'\<\/number\-of\-visits>'
+
+# Strings that might have spaces
+t_TEXT=r'[^\<\>]+'
+
 # A string containing ignored characters (spaces and tabs)
 t_ignore  = ' \t'
 
