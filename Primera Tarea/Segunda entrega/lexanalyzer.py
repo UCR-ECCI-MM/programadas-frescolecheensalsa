@@ -10,7 +10,55 @@
 import ply.lex as lex
 
 # ------------------  Code for ply -------------------------------------
+# List of token names.   This is always required
+tokens = (
+    'OPEN_TAG_DATA',               # <data>
+    'CLOSE_TAG_DATA',              # </data>
 
+    'OPEN_TAG_TOPICS',             # <topics>
+    'CLOSE_TAG_TOPICS',            # </topics>
+
+    'OPEN_TAG_TOPIC',              # <topic>
+    'CLOSE_TAG_TOPIC',             # </topic>
+
+    'OPEN_TAG_REGIONS',            # <regions>
+    'CLOSE_TAG_REGIONS',           # </regions>
+
+    'OPEN_TAG_REGION',             # <region>
+    'CLOSE_TAG_REGION',            # </region>
+
+    'OPEN_TAG_SITES',              # <sites>
+    'CLOSE_TAG_SITES',             # </sites>
+
+    'OPEN_TAG_SITE',               # <site>
+    'CLOSE_TAG_SITE',              # </site>
+
+    'OPEN_TAG_URL',                # <url>
+    'CLOSE_TAG_URL',               # </url>
+
+    'OPEN_TAG_TITLE',              # <title>
+    'CLOSE_TAG_TITLE',             # </title>
+
+    'OPEN_TAG_RECORDS',            # <records>
+    'CLOSE_TAG_RECORDS',           # </records>
+
+    'OPEN_TAG_RECORD',             # <record>
+    'CLOSE_TAG_RECORD',            # </record>
+
+    'OPEN_TAG_INITIAL_DATE',       # <initial-date>
+    'CLOSE_TAG_INITIAL_DATE',      # </initial-date>
+
+    'OPEN_TAG_FINAL_DATE',         # <final-date>
+    'CLOSE_TAG_FINAL_DATE',        # </final-date>
+
+    'OPEN_TAG_NUMBER_OF_VISITS',   # <number-of-visits>
+    'CLOSE_TAG_NUMBER_OF_VISITS',  # </number-of-visits>
+
+    'DATE',
+    'NUMBER',
+    'URL',
+    'TEXT',
+)
 # A regular expression rules with some action code
 # Define a rule to handle the dates
 def t_DATE(token):
