@@ -53,6 +53,11 @@ tokens = (
 
     'OPEN_TAG_NUMBER_OF_VISITS',   # <number-of-visits>
     'CLOSE_TAG_NUMBER_OF_VISITS',  # </number-of-visits>
+    
+    'DATE',
+    'NUMBER',
+    'URL',
+    'TEXT',
 )
 
 # Regular expression rules with some action code
@@ -138,7 +143,7 @@ t_ignore  = ' \t'
 
 # Define a rule to rule to read the data
 def readData():
-    with open('datosSitios.xml', 'r') as file:
+    with open('data.xml', 'r') as file:
         data = file.read()
     return data
 
