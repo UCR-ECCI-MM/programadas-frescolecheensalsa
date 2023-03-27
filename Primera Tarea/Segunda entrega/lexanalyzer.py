@@ -53,12 +53,8 @@ tokens = (
 
     'OPEN_TAG_NUMBER_OF_VISITS',   # <number-of-visits>
     'CLOSE_TAG_NUMBER_OF_VISITS',  # </number-of-visits>
-
-    'DATE',
-    'NUMBER',
-    'URL',
-    'TEXT',
 )
+
 # Regular expression rules with some action code
 # Define a rule to handle the dates
 def t_DATE(token):
@@ -66,6 +62,12 @@ def t_DATE(token):
     # D-M-YYYY
     r'((0*[1-9])|([12][0-9])|(3[01]))\-(0*[1-9]|1[0-2])\-(19[5-9][0-9]|20([01][0-9]|2[0-3]))'
     return token
+
+# define a rule to handle the numbers
+def t_NUMBER(t):
+    r'\d+(\.\d)*'
+    t.value = float(t.value)    
+    return t
 
 # Define a rule to handle URL´s
 def t_URL(token):
