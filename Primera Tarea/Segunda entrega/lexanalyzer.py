@@ -8,6 +8,7 @@
 
 # Import the library for the lexical analyzer
 import ply.lex as lex
+from pathlib import Path
 
 # ------------------  Code for ply -------------------------------------
 # List of token names.   This is always required
@@ -143,7 +144,8 @@ t_ignore  = ' \t'
 
 # Define a rule to rule to read the data
 def readData():
-    with open('data.xml', 'r') as file:
+    fileName = Path(__file__).parent / "data.xml"
+    with open(fileName) as file:
         data = file.read()
     return data
 
