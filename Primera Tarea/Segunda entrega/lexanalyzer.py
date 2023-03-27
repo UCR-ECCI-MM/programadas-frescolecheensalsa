@@ -144,8 +144,9 @@ t_ignore  = ' \t'
 
 # Define a rule to rule to read the data
 def readData():
+    # using example from https://stackoverflow.com/questions/40416072/reading-a-file-using-a-relative-path-in-a-python-project
     fileName = Path(__file__).parent / "data.xml"
-    with open(fileName) as file:
+    with open(fileName, 'r') as file:
         data = file.read()
     return data
 
