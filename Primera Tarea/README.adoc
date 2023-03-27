@@ -56,7 +56,7 @@ Para el uso de "paths" absolutos y facilitar el uso del documento, independiente
 
 === Documento de datos a analizar ===
 
-Para utilizar este programa, se necesita la presencia de un documento xml en la misma carpeta que el ejecutable con el nombre `python lexanalyzer.xml`
+Para utilizar este programa, se necesita la presencia de un documento xml en la misma carpeta que el ejecutable con el nombre `data.xml`
 
 === Con output en terminal ===
 
