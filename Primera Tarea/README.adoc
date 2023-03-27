@@ -12,13 +12,13 @@
 
 *Autores:* Joseph Valverde, Kenneth Villalobos, Alejandro Jimenez
 
-*Descripción:* Herramienta tal, que a partir de un archivo XML con información de visitas a sitios de Internet su aplicación pueda generar algunas estadísticas interesantes sobre el interés de la gente por temas particulares.
+*Descripción:* Herramienta tal, que a partir de un archivo XML con información de visitas a sitios de Internet, pueda generar algunas estadísticas interesantes sobre el interés de la gente por temas particulares.
 
 == Requerimientos ==
 
-Crear una gerramienta tal, que a partir de un archivo XML con información de visitas a sitios de Internet su aplicación pueda generar algunas estadísticas interesantes sobre el interés de la gente por temas particulares.
+Crear una herramienta tal, que a partir de un archivo XML con información de visitas a sitios de Internet pueda generar algunas estadísticas interesantes sobre el interés de la gente por temas particulares.
 
-De estos, las estadistias a generar son:
+Las estadistias a generar serán:
 
 1. Listado de sitios disponibles por tema (Se listaran todos los temas como títulos y justo debajo de cada uno, cada sitio que utiliza este tema como subtítulo)
 
@@ -29,11 +29,11 @@ De estos, las estadistias a generar son:
 4. Comparación de visitas por país, por año (Se mostrará una serie de años disponibles para elegir a partir de los datos recopilados, el usuario seleccionará uno y se le mostrará un gráfico de barras con el número de visitas en ese año como eje y, y los países como eje x).
 
 
-== Solucion ==
+== Solución ==
 
 === Analizado lexico ===
 
-Se utliza la biblioteca ply de python, con la cual, a traves del uso de expresiones regulares, se definieron tokens, las cuales son leidas, identificadas y extraidas.  
+Se utlizó la biblioteca ply de python, con la cual, a traves del uso de expresiones regulares, se definieron tokens, los cuales son leidos, identificadas y extraidos.  
 
 === Estructuras a utilizar ===
 
@@ -50,15 +50,15 @@ Para el analisis lexico con la utilización de expresiones regulares y tokens
 
 `from pathlib import Path`
 
-Para el uso de "paths" absolutos y facilitar el uso del documento, independientement de su localización en el sistema. 
+Para el uso de "paths" absolutos y facilitar el uso del archivo de entrada, independientemente de su localización en el sistema. 
 
 == Manual de Uso ==
 
-=== Documento de datos a analizar ===
+=== Archivo de datos a analizar ===
 
-Para utilizar este programa, se necesita la presencia de un documento xml en la misma carpeta que el ejecutable con el nombre `python lexanalyzer.xml`
+Para utilizar este programa, se necesita la presencia de un archivo xml en la misma carpeta que el ejecutable con el nombre `python lexanalyzer.py`
 
-=== Con output en terminal ===
+=== Generar output en terminal ===
 
 Hay varias maneras de correr el programa en la linea de comando. Dentro de las que se utilizan son: 
 
@@ -67,20 +67,20 @@ Hay varias maneras de correr el programa en la linea de comando. Dentro de las q
 
 Cual comando sea necesario pueda depender del sistema, y ambos pueden, una vez mas, dependiendo del sistema, ser validos en el mismo sistema.
 
-=== Con output generado escrito a documento ===
+=== Generar output en un archivo de texto ===
 
-El siguiente documento genera un documento con el output llamado `output.txt`
+El siguiente comando genera un archivo de texto llamado `output.txt` con el output producido
 
 - `python lexanalyzer.py > output.txt` 
 
-El comando de python, una vez mas, depende del sistema, tal como en la seccion pasada de output en el terminal.
+El comando de python, una vez mas, depende del sistema, tal como en la seccion pasada de generar output en terminal.
 
 
 === Posibles errores ===
 
-Es posible que de darse el nombre de un sitio, como un url, este sea identificado como url, en lugar del nombre de un sitio. El comportamiento para este tipo de encuentros, esta aún por definir.
+Es posible que de darse el titulo de un sitio, como un url, este sea identificado como url, en lugar de como texto, como es el caso de la línea 1107. El comportamiento para este tipo de encuentros, esta aún por definir.
 
-De darse un documento con formato XML, pero cuyo contenido no esté en este, la lectura de este no va a generar la salida esperada. 
+De darse un documento con formato XML, pero cuyo contenido no esté en este, la lectura del mismo no generará la salida esperada. 
 
 == Creditos ==
 
