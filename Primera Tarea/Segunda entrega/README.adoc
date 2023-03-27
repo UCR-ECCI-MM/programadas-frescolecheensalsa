@@ -12,35 +12,17 @@
 
 *Autores:* Joseph Valverde, Kenneth Villalobos, Alejandro Jimenez
 
-*Descripción:* Herramienta tal, que a partir de un archivo XML con información de visitas a sitios de Internet, pueda generar algunas estadísticas interesantes sobre el interés de la gente por temas particulares.
+*Descripción:* Herramienta tal, que a partir de un archivo XML con información de visitas a sitios de Internet, pueda realizar un análisis léxico de los posibles tokens.
 
 == Requerimientos ==
 
-Crear una herramienta tal, que a partir de un archivo XML con información de visitas a sitios de Internet pueda generar algunas estadísticas interesantes sobre el interés de la gente por temas particulares.
-
-Las estadistias a generar serán:
-
-1. Listado de sitios disponibles por tema (Se listaran todos los temas como títulos y justo debajo de cada uno, cada sitio que utiliza este tema como subtítulo)
-
-2. Comparación del número de visitas por sitio, por año (Se mostrará una serie de años disponibles para elegir a partir de los datos recopilados, el usuario seleccionará uno y se le mostrará un gráfico de barras con el número de visitas en ese año como eje y, y los sitios como eje x).
-
-3. Comparación del número de visitas por tema, por año (Se mostrará una serie de años disponibles para elegir a partir de los datos recopilados, el usuario seleccionará uno y se le mostrará un gráfico de barras con el número de visitas en ese año como eje y, y los temas como eje x).
-
-4. Comparación de visitas por país, por año (Se mostrará una serie de años disponibles para elegir a partir de los datos recopilados, el usuario seleccionará uno y se le mostrará un gráfico de barras con el número de visitas en ese año como eje y, y los países como eje x).
-
+Crear una herramienta tal, que a partir de un archivo XML con información de visitas a sitios de Internet pueda realizar un análisis léxico de los posibles tokens.
 
 == Solución ==
 
 === Analizado lexico ===
 
 Se utlizó la biblioteca ply de python, con la cual, a traves del uso de expresiones regulares, se definieron tokens, los cuales son leidos, identificadas y extraidos.  
-
-=== Estructuras a utilizar ===
-
-1. Arreglo de listas de sitios (strings) 
-2. Mapa que asocia años (ints) con mapas que asocian sitios (strings) con números de visitas (ints)
-3. Mapa que asocia años (ints) con mapas que asocian temas (strings) con números de visitas (ints)
-4. Mapa que asocia años (ints) con mapas que asocian países (strings) con números de visitas (ints)
 
 === Paquetes incluidos ===
 
