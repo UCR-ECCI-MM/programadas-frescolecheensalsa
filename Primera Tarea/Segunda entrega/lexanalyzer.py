@@ -11,7 +11,7 @@ import ply.lex as lex
 
 # ------------------  Code for ply -------------------------------------
 
-# A regular expression rules with some action code
+# Regular expression rules with some action code
 # Define a rule to handle the dates
 def t_DATE(token):
     # DD-MM-YYYY (01 <= DD <= 31; 01 <= MM <= 12; 1950 <= YYYY <= 2023)
@@ -21,9 +21,7 @@ def t_DATE(token):
 
 # Define a rule to handle URL´s
 def t_URL(token):
-    # TODO(Kenneth): Ask and Alejandro and Joseph about this regex and its
-    # repercussions, if necessary, change it
-    # Https:// (optional) www. (optional) something with letters or numbers . something that does not have space
+    # Https:// (optional) www. (optional) something with letters or numbers . something that does not have space or brackets
     r'([a-z]+\:\/\/)?(www\.)?((\w|-)+\.[^ <>]+)'
     return token
 
