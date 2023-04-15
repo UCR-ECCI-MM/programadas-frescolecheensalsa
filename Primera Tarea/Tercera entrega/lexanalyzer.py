@@ -176,6 +176,52 @@ def p_RECORDS_LIST(token):
                     |'''
     # Do something (not yet needed)
 
+# Rules for the "base elements"
+# Rule for a topic
+def p_TOPIC(token):
+    'TOPIC : OPEN_TAG_TOPIC TEXT CLOSE_TAG_TOPIC'
+    # Do something (not yet needed)
+
+# Rule for a region
+def p_REGION(token):
+    'REGION : OPEN_TAG_REGION TEXT CLOSE_TAG_REGION'
+    # Do something (not yet needed)
+
+# Rule for a site
+def p_SITE(token):
+    'SITE : OPEN_TAG_SITE URL TITLE TOPICS RECORDS CLOSE_TAG_SITE'
+    # Do something (not yet needed)
+
+# Rule for a record
+def p_RECORD(token):
+    'RECORD : OPEN_TAG_RECORD INITIAL_DATE FINAL_DATE REGION VISITS CLOSE_TAG_RECORD'
+    # Do something (not yet needed)
+
+# Rule for an url
+def p_URL(token):
+    'URL : OPEN_TAG_URL LINK CLOSE_TAG_URL'
+    # Do something (not yet needed)
+
+# Rule for a title
+def p_TITLE(token):
+    'TITLE : OPEN_TAG_TITLE TEXT CLOSE_TAG_TITLE'
+    # Do something (not yet needed)
+
+# Rule for an initial date
+def p_INITIAL_DATE(token):
+    'INITIAL_DATE : OPEN_TAG_INITIAL_DATE DATE CLOSE_TAG_INITIAL_DATE'
+    # Do something (not yet needed)
+
+# Rule for a final date
+def p_FINAL_DATE(token):
+    'FINAL_DATE : OPEN_TAG_FINAL_DATE DATE CLOSE_TAG_FINAL_DATE'
+    # Do something (not yet needed)
+
+# Rule for the visits
+def p_VISITS(token):
+    'VISITS : OPEN_TAG_NUMBER_OF_VISITS NUMBER CLOSE_TAG_NUMBER_OF_VISITS'
+    # Do something (not yet needed)
+
 # Build the parser
 parser = yacc.yacc()
 
