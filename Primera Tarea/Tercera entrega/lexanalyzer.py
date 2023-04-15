@@ -139,16 +139,48 @@ t_TEXT=r'[^\<\>]+'
 # A string containing ignored characters (spaces and tabs)
 t_ignore  = ' \t'
 
+# Build the lexer
+lexer = lex.lex()
+
 # ------------------  Code for the lexer -------------------------------------
 # ------------------  Code for the parser  -----------------------------------
+
 # Import the library for the syntactical analyzer
 import ply.yacc as yacc
+
+# dictionary of structures (Currently empty as it is still not needed)
+structures = { }
+
+# Rules for the lists
+# Rule for the list of topics
+def p_TOPICS_LIST(token):
+    '''TOPICS_LIST : TOPIC TOPICS_LIST
+                   |'''
+    # Do something (not yet needed)
+
+# Rule for the list of regions
+def p_REGIONS_LIST(token):
+    '''REGIONS_LIST : REGION REGIONS_LIST
+                    |'''
+    # Do something (not yet needed)
+
+# Rule for the list of sites
+def p_SITES_LIST(token):
+    '''SITES_LIST : SITE SITES_LIST
+                  |'''
+    # Do something (not yet needed)
+
+# Rule for the list of records
+def p_RECORDS_LIST(token):
+    '''RECORDS_LIST : RECORD RECORDS_LIST
+                    |'''
+    # Do something (not yet needed)
 
 # Build the parser
 parser = yacc.yacc()
 
-# dictionary of structures (Currently empty as it is still not needed)
-structures = { }
+# ------------------  Code for the parser  -----------------------------------
+# ------------------  Code for ply -------------------------------------------
 
 # Import the library to know the path
 from pathlib import Path
@@ -159,9 +191,6 @@ def readData():
     with open(fileName, 'r') as file:
         data = file.read()
     return data
-
-# Build the lexer
-lexer = lex.lex()
 
 # Read the data
 data = readData()
