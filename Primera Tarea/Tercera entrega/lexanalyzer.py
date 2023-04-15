@@ -1,14 +1,13 @@
 # Copyright 2023 Alejandro Jimenez, Joseph Valverde, Kenneth Villalobos
 
 # ------------------------------------------------------------
- # lexanalizer.py
+ # lexsynanalizer.py
  #
- # lexical analyzer for the data file with .xml extension
+ # lexical and syntactical analyzer for the data file with .xml extension
  # ------------------------------------------------------------
 
 # Import the library for the lexical analyzer
 import ply.lex as lex
-from pathlib import Path
 
 # ------------------  Code for ply -------------------------------------
 # List of token names.   This is always required
@@ -151,10 +150,12 @@ parser = yacc.yacc()
 # dictionary of structures (Currently empty as it is still not needed)
 structures = { }
 
+# Import the library to know the path
+from pathlib import Path
 # Define a rule to rule to read the data
 def readData():
     # using example from https://stackoverflow.com/questions/40416072/reading-a-file-using-a-relative-path-in-a-python-project
-    fileName = Path(__file__).parent / "datosSitios.xml"
+    fileName = Path(__file__).parent / "data.xml"
     with open(fileName, 'r') as file:
         data = file.read()
     return data
