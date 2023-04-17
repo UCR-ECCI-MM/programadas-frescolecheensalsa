@@ -1,15 +1,17 @@
 # Copyright 2023 Alejandro Jimenez, Joseph Valverde, Kenneth Villalobos
 
 # ------------------------------------------------------------
- # lexsynanalizer.py
+ # lexsynanalyzer.py
  #
  # lexical and syntactical analyzer for the data file with .xml extension
  # ------------------------------------------------------------
 
+# ------------------  Code for ply -------------------------------------
 # Import the library for the lexical analyzer
 import ply.lex as lex
+from pathlib import Path
 
-# ------------------  Code for ply -------------------------------------
+# ------------------  Code for the lexer -------------------------------------
 # List of token names.   This is always required
 tokens = (
     'OPEN_TAG_DATA',               # <data>
@@ -131,7 +133,7 @@ t_OPEN_TAG_FINAL_DATE=r'\<final\-date\>'
 t_CLOSE_TAG_FINAL_DATE=r'\<\/final\-date\>'
 
 t_OPEN_TAG_NUMBER_OF_VISITS=r'\<number\-of\-visits\>'
-t_CLOSE_TAG_NUMBER_OF_VISITS=r'\<\/number\-of\-visits>'
+t_CLOSE_TAG_NUMBER_OF_VISITS=r'\<\/number\-of\-visits\>'
 
 # Strings that might have spaces
 t_TEXT=r'[^\<\>]+'
@@ -139,88 +141,120 @@ t_TEXT=r'[^\<\>]+'
 # A string containing ignored characters (spaces and tabs)
 t_ignore  = ' \t'
 
+
+
 # Build the lexer
 lexer = lex.lex()
 
 # ------------------  Code for the lexer -------------------------------------
 # ------------------  Code for the parser  -----------------------------------
-
 # Import the library for the syntactical analyzer
 import ply.yacc as yacc
 
 # dictionary of structures (Currently empty as it is still not needed)
 structures = { }
 
+# Parsing rules
+# Starting rule
+def p_START(token):
+    'START : OPEN_TAG_DATA TOPICS REGIONS SITES CLOSE_TAG_DATA'
+
+# Rules for the main headers
+# Rule for the topics header
+def p_TOPICS(token):
+    'TOPICS : OPEN_TAG_TOPICS TOPICS_LIST CLOSE_TAG_TOPICS'
+    # Do something
+
+# Rule for the regions header
+def p_REGIONS(token):
+    'REGIONS : OPEN_TAG_REGIONS REGIONS_LIST CLOSE_TAG_REGIONS'
+    # Do something
+
+# Rule for the sites header
+def p_SITES(token):
+    'SITES : OPEN_TAG_SITES SITES_LIST CLOSE_TAG_SITES'
+    # Do something
+
+# Rule for the records header
+def p_RECORDS(token):
+    'RECORDS : OPEN_TAG_RECORDS RECORDS_LIST CLOSE_TAG_RECORDS'
+    # Do something
+
 # Rules for the lists
 # Rule for the list of topics
 def p_TOPICS_LIST(token):
     '''TOPICS_LIST : TOPIC TOPICS_LIST
                    |'''
-    # Do something (not yet needed)
+    # Do something
 
 # Rule for the list of regions
 def p_REGIONS_LIST(token):
     '''REGIONS_LIST : REGION REGIONS_LIST
                     |'''
-    # Do something (not yet needed)
+    # Do something
 
 # Rule for the list of sites
 def p_SITES_LIST(token):
     '''SITES_LIST : SITE SITES_LIST
                   |'''
-    # Do something (not yet needed)
+    # Do something
 
 # Rule for the list of records
 def p_RECORDS_LIST(token):
     '''RECORDS_LIST : RECORD RECORDS_LIST
                     |'''
-    # Do something (not yet needed)
+    # Do something
 
 # Rules for the "base elements"
 # Rule for a topic
 def p_TOPIC(token):
     'TOPIC : OPEN_TAG_TOPIC TEXT CLOSE_TAG_TOPIC'
-    # Do something (not yet needed)
+    # Do something
 
 # Rule for a region
 def p_REGION(token):
     'REGION : OPEN_TAG_REGION TEXT CLOSE_TAG_REGION'
-    # Do something (not yet needed)
+    # Do something
 
 # Rule for a site
 def p_SITE(token):
     'SITE : OPEN_TAG_SITE URL TITLE TOPICS RECORDS CLOSE_TAG_SITE'
-    # Do something (not yet needed)
+    # Do something
 
 # Rule for a record
 def p_RECORD(token):
     'RECORD : OPEN_TAG_RECORD INITIAL_DATE FINAL_DATE REGION VISITS CLOSE_TAG_RECORD'
-    # Do something (not yet needed)
+    # Do something
 
 # Rule for an url
 def p_URL(token):
     'URL : OPEN_TAG_URL LINK CLOSE_TAG_URL'
-    # Do something (not yet needed)
+    # Do something
 
 # Rule for a title
 def p_TITLE(token):
     'TITLE : OPEN_TAG_TITLE TEXT CLOSE_TAG_TITLE'
-    # Do something (not yet needed)
+    # Do something
 
 # Rule for an initial date
 def p_INITIAL_DATE(token):
     'INITIAL_DATE : OPEN_TAG_INITIAL_DATE DATE CLOSE_TAG_INITIAL_DATE'
-    # Do something (not yet needed)
+    # Do something
 
 # Rule for a final date
 def p_FINAL_DATE(token):
     'FINAL_DATE : OPEN_TAG_FINAL_DATE DATE CLOSE_TAG_FINAL_DATE'
-    # Do something (not yet needed)
+    # Do something
 
 # Rule for the visits
 def p_VISITS(token):
     'VISITS : OPEN_TAG_NUMBER_OF_VISITS NUMBER CLOSE_TAG_NUMBER_OF_VISITS'
-    # Do something (not yet needed)
+    # Do something
+
+# General rules
+# Rule for errors
+def p_error(token):
+    print("Syntax error '%s'" % token)
 
 # Build the parser
 parser = yacc.yacc()
@@ -228,31 +262,21 @@ parser = yacc.yacc()
 # ------------------  Code for the parser  -----------------------------------
 # ------------------  Code for ply -------------------------------------------
 
-# Import the library to know the path
-from pathlib import Path
 # Define a rule to rule to read the data
 def readData():
-    # using example from https://stackoverflow.com/questions/40416072/reading-a-file-using-a-relative-path-in-a-python-project
+    # Made using example from https://stackoverflow.com/questions/40416072/reading-a-file-using-a-relative-path-in-a-python-project
     fileName = Path(__file__).parent / "data.xml"
     with open(fileName, 'r') as file:
         data = file.read()
     return data
 
-# Read the data
-data = readData()
+try:
+    # Try to read the data
+    data = readData()
+    # If it could read the data, parse it
+    parser.parse(data)
 
-# Give the data to the lexer
-lexer.input(data)
- 
-# While loop to tokenize the data
-while True:
-    # Get a token from the lexer using the regex above
-    tok = lexer.token()
-
-    # If no token was gotten
-    if not tok:
-        # Break the loop as there is not more input to tokenize
-        break
-    
-    # Print the token
-    print(tok)
+    print("\nPara revisar resultados: vea el documento creado parser.out\n")
+# If an IO Error exception was thrown reading the data
+except IOError:
+    print("Error: Could not open the data")
