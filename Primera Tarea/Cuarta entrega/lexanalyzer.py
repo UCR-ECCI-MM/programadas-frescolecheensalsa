@@ -89,7 +89,7 @@ def t_newline(token):
  
 # Define a rule to handle the errors
 def t_error(token):
-    print("Illegal character '%s'" % token.value[0])
+    print("Lexical error on token: ", token)
     token.lexer.skip(1)
 
 # Regular expression rules for simple tokens
@@ -142,14 +142,17 @@ t_TEXT=r'[^\<\>]+'
 t_ignore  = ' \t'
 
 
-
 # Build the lexer
 lexer = lex.lex()
 
-# ------------------  Code for the lexer -------------------------------------
-# ------------------  Code for the parser  -----------------------------------
+# ------------------  Code for the lexer --------------------------------------
+# ------------------  Code for the parser  ------------------------------------
+
 # Import the library for the syntactical analyzer
 import ply.yacc as yacc
+# Import to manage dates
+from datetime import date, datetime
+
 # Main structures
 # First structure: so we can know what sites has every topics.
 # It corresponds to a dictionary (map) that associates topics (as the keys) to list of titles of sites (as the values).
@@ -281,6 +284,146 @@ def p_site(token):
   topics = token[4]
   records = token[5]
 
+  # --------------------  Code for the first structure ---------------------- #
+  generate_first_structure(topics, title)
+
+  # --------------------  Code for the second structure --------------------- #
+  generate_second_or_fourth_structure(records, visits_per_site_per_year, title)
+
+  # --------------------  Code for the third structure ---------------------- #
+  generate_third_structure(records, topics)
+
+  # --------------------  Code for the fourth structure --------------------- #
+  generate_second_or_fourth_structure(records, visits_per_region_per_year, None)
+
+  # --------------------  Code for the fifth structure ---------------------- #
+  generate_fifth_structure(topics, title)
+
+  # --------------------  Code for the sixth structure ---------------------- #
+  generate_sixth_structure(title, url)
+
+  # --------------------  Code for the seventh structure -------------------- #
+  generate_seventh_structure(records, title)
+
+# Modularized procedure to generate the first structure
+def generate_first_structure(topics, title):
+  # For loop to move through all the topics (on a single site)
+  for topic in topics:
+    # add the site to all the current topic it has
+    sites_per_topic[topic].append(title)
+
+# Modularized procedure to generate the second or fourth structure
+def generate_second_or_fourth_structure(records, structure, variable):
+  # for loop to move through all the records (on a single site)
+  for record in records:
+    
+    # get local references for date objects
+    ini_date = record[0]
+    final_date = record[1]
+    visits_per_day = record[3]
+    
+    # if no variable was given use the region of the current record as the variable
+    if variable is None: variable = record[2]
+
+    # for loop to go through all the years covered in this record
+    for year in range(ini_date.year, final_date.year+1):
+      # if the year is not already there
+      if structure.get(year) is None:
+        # add the year and then a dictionary with the key/value pair variable and 0.0
+        structure.setdefault(year, {variable:0.0})
+      # if the year is already there
+      else:
+        # add the dictionary with the key/value pair variable and 0.0 on that year
+        structure.get(year).update({variable:0.0})
+
+      # get the number of visits based on the dates
+      visits = visit_amount(year, ini_date, final_date, visits_per_day)
+
+      # add the amount of visits on that variable on that year (adds a new key/value pair containing
+      # the variable and the visits it already had plus the newly calculated ones)
+      structure[year].update({variable:structure[year][variable] + visits})
+
+# Modularized procedure to generate the third structure
+def generate_third_structure(records, topics):
+  # for loop to move through all the records (on a single site)
+  for record in records:
+    
+    # get local references for date objects
+    ini_date = record[0]
+    final_date = record[1]
+    visits_per_day = record[3]
+
+    # for loop to go through all the years covered in this record
+    for year in range(ini_date.year, final_date.year+1):
+      # if the year is not already there
+      if visits_per_topic_per_year.get(year) is None:
+        # add the year and then an empty dictionary (just so it knows the value is a dictionary)
+        visits_per_topic_per_year.setdefault(year, {})
+      
+      # for loop to move through all the topics (on this site) to add them to
+      # the year (in case they are not already there, otherwise does nothing)
+      for topic in topics:
+        # if the topic is not already added to the year
+        if visits_per_topic_per_year[year].get(topic) is None:
+          # add the topic to the year with a value of 0.0 (0 visits since it just god added)
+          visits_per_topic_per_year[year].update({topic:0.0})
+      
+      # get the number of visits based on the dates
+      visits = visit_amount(year, ini_date, final_date, visits_per_day)
+      
+      # for loop to move through all the topics (on this site) to add the number
+      for topic in topics:
+          # add the amount of visits on that topic on that year (adds a new key/value pair containing
+          # the topic and the visits it already had plus the newly calculated ones)
+        visits_per_topic_per_year[year].update({topic:visits_per_topic_per_year[year][topic] + visits})
+
+# Modularized procedure to generate the fifth structure
+def generate_fifth_structure(topics, title):
+  # add the site (as the key) with an empty list (as the value)
+  topics_per_site.setdefault(title, [])
+  # For loop to move through all the topics (on a single site)
+  for topic in topics:
+    # add the topic to the list of topics from the site
+    topics_per_site[title].append(topic)
+
+# Modularized procedure to generate the sixth structure
+def generate_sixth_structure(title, url):
+  # Add the key/value pair of the title and the url to the structure
+  url_per_site.update({title:url})
+
+# Modularized procedure to generate the seventh structure
+def generate_seventh_structure(records, title):
+  # add the title of the site to the structure with and empty list as its associated value
+  records_per_site.setdefault(title, [])
+
+  # for loop to move through all the records (on a single site)
+  for record in records:
+    # get the number of days that happened between the 2 dates
+    difference = record[1] - record[0]
+    # multiply the visits per date for the number of days + 1 to get the total visits
+    record[3] *= (difference.days + 1)
+
+    # add the record to the list of records on that title
+    records_per_site[title].append(record)
+
+# Modularized function to calculate the visits amount based on the dates
+def visit_amount(year, ini_date, final_date, visits_per_day): 
+  # years have 365 days
+  days_in_year = 365
+
+  # if the initial date and the final are the same
+  if ini_date.year == final_date.year: days_in_year = (final_date - ini_date).days
+  # if the year is the first year
+  elif year == ini_date.year: days_in_year = (date(ini_date.year, 12, 31) - ini_date).days
+  # if the year is the last year
+  elif year == final_date.year: days_in_year = (final_date - date(final_date.year, 1, 1)).days
+
+  # find amount of visits per day on that year
+  visits = visits_per_day * days_in_year
+
+  # return the number of visits (in millions)
+  return visits
+
 # Rule for a record
 def p_RECORD(token):
     'RECORD : OPEN_TAG_RECORD INITIAL_DATE FINAL_DATE REGION VISITS CLOSE_TAG_RECORD'
@@ -319,8 +462,10 @@ def p_error(token):
 # Build the parser
 parser = yacc.yacc()
 
-# ------------------  Code for the parser  -----------------------------------
-# ------------------  Code for ply -------------------------------------------
+# ------------------  Code for the parser  ------------------------------------
+# ------------------  Code for ply --------------------------------------------
+
+# ------------------  Code for the execution ----------------------------------
 
 # Define a rule to rule to read the data
 def readData():
@@ -335,8 +480,12 @@ try:
     data = readData()
     # If it could read the data, parse it
     parser.parse(data)
-
-    print("\nPara revisar resultados: vea el documento creado parser.out\n")
 # If an IO Error exception was thrown reading the data
 except IOError:
     print("Error: Could not open the data")
+
+# ------------------  Code for the execution ----------------------------------
+
+# ------------------  Code for the output file generation ---------------------
+
+# ------------------  Code for the output file generation ---------------------
