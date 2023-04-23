@@ -153,11 +153,20 @@ import ply.yacc as yacc
 
 # dictionary of structures (Currently empty as it is still not needed)
 structures = { }
+urlCont = 0
+iniDateCont = 0
+finalDateCont = 0
 
 # Parsing rules
 # Starting rule
 def p_START(token):
     'START : OPEN_TAG_DATA TOPICS REGIONS SITES CLOSE_TAG_DATA'
+    global urlCont
+    global iniDateCont
+    global finalDateCont
+    #print("urls: ", urlCont)
+    #print("ini dates: ", iniDateCont)
+    #print("final dates: ", finalDateCont)
 
 # Rules for the main headers
 # Rule for the topics header
@@ -229,6 +238,8 @@ def p_RECORD(token):
 # Rule for an url
 def p_URL(token):
     'URL : OPEN_TAG_URL LINK CLOSE_TAG_URL'
+    global urlCont
+    urlCont = urlCont + 1
     # Do something
 
 # Rule for a title
@@ -239,11 +250,15 @@ def p_TITLE(token):
 # Rule for an initial date
 def p_INITIAL_DATE(token):
     'INITIAL_DATE : OPEN_TAG_INITIAL_DATE DATE CLOSE_TAG_INITIAL_DATE'
+    global iniDateCont
+    iniDateCont = iniDateCont + 1
     # Do something
 
 # Rule for a final date
 def p_FINAL_DATE(token):
     'FINAL_DATE : OPEN_TAG_FINAL_DATE DATE CLOSE_TAG_FINAL_DATE'
+    global finalDateCont
+    finalDateCont = finalDateCont + 1
     # Do something
 
 # Rule for the visits
