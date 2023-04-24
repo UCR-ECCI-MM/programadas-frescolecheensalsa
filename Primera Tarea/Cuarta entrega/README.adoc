@@ -1,0 +1,109 @@
+= Primera Tarea - Segunda Entrega = 
+
+== Resumen ==
+
+*Materia:* CI-0124 Computabilidad y Complejidad
+
+*Profesora:* Prof. Maureen Murillo R.
+
+*Asistente:*
+
+*Grupo:* FrescoLecheEnSalsa
+
+*Autores:* Joseph Valverde, Kenneth Villalobos, Alejandro Jimenez
+
+*Descripción:* Herramienta tal, que a partir de un archivo XML con información de visitas a sitios de Internet, pueda realizar un análisis léxico de los posibles tokens, analizar si la sintaxis de los datos es correcta y guardar los datos en las respectivas estructuras de datos .
+
+== Requerimientos ==
+
+Crear una herramienta tal, que a partir de un archivo XML con información de visitas a sitios de Internet pueda realizar un análisis léxico de los posibles tokens analizar si la sintaxis de los datos es correcta y guardar los datos en las respectivas estructuras de datos .
+
+== Solución ==
+
+=== Analizado lexico ===
+
+Se utlizó la biblioteca ply de python, con la cual, a traves del uso de expresiones regulares, se definieron tokens, los cuales son leidos, identificadas y extraidos.  
+
+Se utilizó la herramienta yacc de la biblioteca ply para analizar la sintaxis y dentro de las reglas definidas se rellenaron las estructuras de datos necesarias para el analisis de estadisticas.
+
+=== Paquetes incluidos ===
+
+`import ply.lex as lex`
+
+Para el analisis lexico con la utilización de expresiones regulares y tokens
+
+`from pathlib import Path`
+
+Para el uso de "paths" absolutos y facilitar el uso del archivo de entrada, independientemente de su localización en el sistema. 
+
+import ply.yacc as yacc
+
+Para el analisis sintáctico.
+
+from datetime import date, datetime
+
+Para determinar realizar ciertos cálculos con el tiempo antes de agregarlas a las estructuras de datos.
+
+== Manual de Uso ==
+
+=== Archivo de datos a analizar ===
+
+Para utilizar este programa, se necesita la presencia de un archivo xml en la misma carpeta que el ejecutable con el nombre `python lexanalyzer.py`
+
+=== Generar output en terminal ===
+
+Hay varias maneras de correr el programa en la linea de comando. Dentro de las que se utilizan son: 
+
+- `python lexanalyzer.py`
+- `python3 lexanalyzer.py`
+
+Cual comando sea necesario pueda depender del sistema, y ambos pueden, una vez mas, dependiendo del sistema, ser validos en el mismo sistema.
+
+=== Generar output en un archivo de texto ===
+
+El siguiente comando genera un archivo de texto llamado `parser.out` con el output producido por la herramienta yacc y los archivos de texto con los contenidos de las estructuras de datos.
+
+
+- `python lexanalyzer.py > output.txt` 
+
+El comando de python, una vez mas, depende del sistema, tal como en la seccion pasada de generar output en terminal.
+
+
+=== Posibles errores ===
+
+Es posible que de darse el titulo de un sitio, como un url, este sea identificado como url, en lugar de como texto, como es el caso de la línea 1107. El comportamiento para este tipo de encuentros, esta aún por definir.
+
+De darse un documento con formato XML, pero cuyo contenido no esté en este, la lectura del mismo no generará la salida esperada. 
+
+== Creditos ==
+
+=== Diseñado e impletado por: ===
+
+Joseph Stuart Valverde Kong, C18100
+
+Estudiante de Computación en varios Énfasis en La Universidad de Costa Rica 
+
+*Email:* joseph.valverdekong@ucr.ac.cr
+
+Kenneth Daniel Villalobos Solís, C18548
+
+Estudiante de Computación en varios Énfasis en La Universidad de Costa Rica
+
+*Email:* kenneth.villalobossolis@ucr.ac.cr
+
+Alejandro Jiménez Corea, B84032
+
+Estudiante de Computación en varios Énfasis en La Universidad de Costa Rica
+
+*Email:* alejandro.jimenezcorea@ucr.ac.cr
+
+=== Fuentes ===
+
+Reading a file using a relative path in a Python project (Stack Overflow)
+
+*Encontrado en:* https://stackoverflow.com/questions/40416072/reading-a-file-using-a-relative-path-in-a-python-project 
+
+
+=== Codigo Original/Base ===
+
+Prof. Maureen Murillo R.
