@@ -6,7 +6,7 @@
  # Program that parses information from a xml file and displays it in GUI
  # ----------------------------------------------------------------------------
 
-# ------------------  Code for ply -------------------------------------
+# ------------------  Code for ply --------------------------------------------
 # Import the library for the lexical analyzer
 import ply.lex as lex
 from pathlib import Path
@@ -506,6 +506,7 @@ try:
 except IOError:
   print("Error: Could not open the data")
 
+
 # ------------------  Code for the execution ----------------------------------
 
 # ------------------  Code for the interface ----------------------------------
@@ -513,24 +514,90 @@ except IOError:
 # Importing tkinter module for GUI interface
 from tkinter import *
 
+# ------------------  Code for the graphs -------------------------------------
+import matplotlib.pyplot as matplot
+
+# Function to graph the visits_per_site_per_year structure
+def graph_visits_per_site_per_year():
+  # Get the year from the selection of the listbox on the third page
+  year = listbox_page2.get(listbox_page2.curselection())
+
+  # Adjust sizes
+  matplot.figure(figsize=(20, 22))
+  matplot.rc('xtick', labelsize=20)
+  matplot.rc('ytick', labelsize=20)
+  matplot.gcf().subplots_adjust(bottom=0.60)
+
+  # Graph the data using the keys on that year as the x axis, their values as the y axis and the color red
+  matplot.bar(list(visits_per_site_per_year[year].keys()), visits_per_site_per_year[year].values(), color='r')
+  # Add the title
+  matplot.title("Visits per site on the year " + str(year), fontsize =30)
+  # Add the axis labels
+  matplot.ylabel("Visits", fontsize =30)
+  matplot.xlabel("Site", fontsize =30)
+  # Rotate the values on the x axis to 90°
+  matplot.xticks(rotation=90)
+  # Show the graph
+  matplot.show()
+
+# Function to graph the graph_visits_per_topic_per_year structure
+def graph_visits_per_topic_per_year():
+  # Get the year from the selection of the listbox on the fourth page
+  year = listbox_page3.get(listbox_page3.curselection())
+
+  # Adjust sizes
+  matplot.figure(figsize=(20, 10))
+  matplot.rc('xtick', labelsize=20)
+  matplot.rc('ytick', labelsize=20)
+  matplot.gcf().subplots_adjust(bottom=0.25)
+
+  # Graph the data using the keys on that year as the x axis, their values as the y axis and the color green
+  matplot.bar(list(visits_per_topic_per_year[year].keys()), visits_per_topic_per_year[year].values(), color='g')
+  # Add the title
+  matplot.title("Visits per topic on the year " + str(year), fontsize =30)
+  # Add the axis labels
+  matplot.ylabel("Visits", fontsize =30)
+  matplot.xlabel("Topic", fontsize =30)
+  # Rotate the values on the x axis to 90°
+  matplot.xticks(rotation=90)
+  # Show the graph
+  matplot.show()
+
+# Function to graph the graph_visits_per_region_per_year structure
+def graph_visits_per_region_per_year():
+  # Get the year from the selection of the listbox on the fifth page
+  year = listbox_page4.get(listbox_page4.curselection())
+
+  # Adjust sizes
+  matplot.figure(figsize=(20, 10))
+  matplot.rc('xtick', labelsize=20)
+  matplot.rc('ytick', labelsize=20)
+  matplot.gcf().subplots_adjust(bottom=0.25)
+
+  # Graph the data using the keys on that year as the x axis, their values as the y axis and the color blue
+  matplot.bar(list(visits_per_region_per_year[year].keys()), visits_per_region_per_year[year].values(), color='b')
+  # Add the title
+  matplot.title("Visits per region on the year " + str(year), fontsize =30)
+  # Add the axis labels
+  matplot.ylabel("Visits", fontsize =30)
+  matplot.xlabel("Region", fontsize =30)
+  # Rotate the values on the x axis to 90°
+  matplot.xticks(rotation=90)
+  # Show the graph
+  matplot.show()
 
 # ------------------  Code for the graphs -------------------------------------
-
-
-
-# ------------------  Code for the graphs -------------------------------------
-
+ 
 # Creating a tkinter window
 root = Tk()
 
 # Configure the tkinter window
 # Set the title
 root.title('Websites statistics')
+# Set the dimensions
 
-# Import sys to know what system is running the code
 from sys import platform
 
-# Set the dimensions based on the platform
 if platform == 'linux' or platform == 'linux2':
   root.geometry('728x600')
 else:
@@ -663,8 +730,33 @@ scrollbar_page3.pack(side = RIGHT, fill = BOTH)
 # Configure the listbox with the data from a structure and scrollbar
 configure_listbox(listbox_page3, scrollbar_page3, visits_per_topic_per_year)
 
-# ------------------ Fifth page --------------------------------------------- #
+# ------------------ Fifth page -------------------------------------------- #
+
+# Create the items of the fifth page
+tittle_page4 = Label(pages[4], text = "Number of visits per region, on a certain year", font = "Helvetica 12 bold")
+instructions_page4 = Label(pages[4], text = "Select the year:", font = "Helvetica 12 bold")
+button0_page4 = Button(pages[4], text = 'Back', command = lambda: pages[0].tkraise())
+button1_page4 = Button(pages[4], text = 'Show graph', command = graph_visits_per_region_per_year)
+listbox_page4 = Listbox(pages[4])
+scrollbar_page4 = Scrollbar(pages[4])
+
+# Add the items to the fifth page
+button0_page4.pack(side=BOTTOM)
+button1_page4.pack(side=BOTTOM)
+tittle_page4.pack(fill=BOTH)
+instructions_page4.pack(fill=BOTH)
+listbox_page4.pack(side = LEFT, fill = BOTH)
+scrollbar_page4.pack(side = RIGHT, fill = BOTH)
+
+# Configure the listbox with the data from a structure and scrollbar
+configure_listbox(listbox_page4, scrollbar_page4, visits_per_region_per_year)
 
 # ------------------ Final touches ------------------------------------------ #
+
+# Set the first page as the starting page
+pages[0].tkraise()
+
+# Call a loop so that the program is still running as long as there is a window
+root.mainloop()
 
 # ------------------  Code for the interface ----------------------------------
