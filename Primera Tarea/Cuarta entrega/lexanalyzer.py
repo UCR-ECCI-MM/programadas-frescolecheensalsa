@@ -89,7 +89,7 @@ def t_newline(token):
  
 # Define a rule to handle the errors
 def t_error(token):
-    print("Lexical error on token: '%s'" % token.value[0])
+    print("Lexical error on token: ", token)
     token.lexer.skip(1)
 
 # Regular expression rules for simple tokens
@@ -239,30 +239,30 @@ def p_records(token):
 # Rules for the lists
 # Rule for the list of topics
 def p_topics_list(token):
-  '''topics_list : TOPIC topics_list
-                 | TOPIC'''
+  '''topics_list : topic topics_list
+                 | topic'''
 
 # Rule for the list of regions
 def p_regions_list(token):
-  '''regions_list : REGION regions_list
-                  | REGION'''
+  '''regions_list : region regions_list
+                  | region'''
   # add the region to the regions list
   regions_list.append(token[1])
 
 # Rule for the list of sites
 def p_sites_list(token):
-  '''sites_list : SITE sites_list
-                | SITE'''
+  '''sites_list : site sites_list
+                | site'''
 
 # Rule for the list of records
 def p_records_list(token):
-  '''records_list : RECORD records_list
-                  | RECORD'''
+  '''records_list : record records_list
+                  | record'''
 
 # Rules for the "base elements"
 # Rule for a topic
 def p_topic(token):
-  'TOPIC : OPEN_TAG_TOPIC TEXT CLOSE_TAG_TOPIC'
+  'topic : OPEN_TAG_TOPIC TEXT CLOSE_TAG_TOPIC'
   # add the topic to the topics buffer
   topics_buffer.append(token[2])
   # add the topics to the first structure as well (if it was already there
@@ -271,13 +271,13 @@ def p_topic(token):
 
 # Rule for a region
 def p_region(token):
-  'REGION : OPEN_TAG_REGION TEXT CLOSE_TAG_REGION'
+  'region : OPEN_TAG_REGION TEXT CLOSE_TAG_REGION'
   # get the region and put it on the head (token[0])
   token[0] = token[2]
 
 # Rule for a site
 def p_site(token):
-  'SITE : OPEN_TAG_SITE URL TITLE topics records CLOSE_TAG_SITE'
+  'site : OPEN_TAG_SITE url title topics records CLOSE_TAG_SITE'
   # get local references for more clarity
   url = token[2]
   title = token[3]
@@ -426,59 +426,38 @@ def visit_amount(year, ini_date, final_date, visits_per_day):
 
 # Rule for a record
 def p_RECORD(token):
-  'RECORD : OPEN_TAG_RECORD INITIAL_DATE FINAL_DATE REGION VISITS CLOSE_TAG_RECORD'
-  # Code adapted from https://www.digitalocean.com/community/tutorials/python-string-to-datetime-strptime
-  # and https://www.tutorialspoint.com/How-do-I-calculate-number-of-days-between-two-dates-using-Python#:~:text=datetime()%20module,days%20between%20the%20two%20dates.    
-  # get the initial date object
-  ini_date = datetime.strptime(token[2], '%d-%m-%Y').date()
-  # get the final date object
-  final_date = datetime.strptime(token[3], '%d-%m-%Y').date()
-
-  # find the amount of days in between the dates
-  difference = final_date - ini_date
-  # find the amount of visits for each day
-  visits_per_day = token[5] / (difference.days + 1)
-
-  # Get the region
-  region = token[4]
-  # add to the records buffer list the initial day, final day, the region and the visits per day
-  records_buffer.append([ini_date, final_date, region, visits_per_day])
+    'RECORD : OPEN_TAG_RECORD INITIAL_DATE FINAL_DATE REGION VISITS CLOSE_TAG_RECORD'
+    # Do something
 
 # Rule for an url
 def p_URL(token):
-  'URL : OPEN_TAG_URL LINK CLOSE_TAG_URL'
-  # get the link and put it on the head (token[0])
-  token[0] = token[2]
+    'URL : OPEN_TAG_URL LINK CLOSE_TAG_URL'
+    # Do something
 
 # Rule for a title
 def p_TITLE(token):
-  'TITLE : OPEN_TAG_TITLE TEXT CLOSE_TAG_TITLE'
-  # get the title and put it on the head (token[0])
-  token[0] = token[2]
+    'TITLE : OPEN_TAG_TITLE TEXT CLOSE_TAG_TITLE'
+    # Do something
 
 # Rule for an initial date
 def p_INITIAL_DATE(token):
-  'INITIAL_DATE : OPEN_TAG_INITIAL_DATE DATE CLOSE_TAG_INITIAL_DATE'
-  # get the date and put it on the head (token[0])
-  token[0] = token[2]
+    'INITIAL_DATE : OPEN_TAG_INITIAL_DATE DATE CLOSE_TAG_INITIAL_DATE'
+    # Do something
 
 # Rule for a final date
 def p_FINAL_DATE(token):
-  'FINAL_DATE : OPEN_TAG_FINAL_DATE DATE CLOSE_TAG_FINAL_DATE'
-  # get the date and put it on the head (token[0])
-  token[0] = token[2]
+    'FINAL_DATE : OPEN_TAG_FINAL_DATE DATE CLOSE_TAG_FINAL_DATE'
+    # Do something
 
 # Rule for the visits
 def p_VISITS(token):
-  'VISITS : OPEN_TAG_NUMBER_OF_VISITS NUMBER CLOSE_TAG_NUMBER_OF_VISITS'
-  # get the number of visits and put it on the head (token[0])
-  token[0] = token[2]
+    'VISITS : OPEN_TAG_NUMBER_OF_VISITS NUMBER CLOSE_TAG_NUMBER_OF_VISITS'
+    # Do something
 
 # General rules
 # Rule for errors
 def p_error(token):
-  # print the token that generated the error
-  print("Syntax error '%s'" % token)
+    print("Syntax error '%s'" % token)
 
 # Build the parser
 parser = yacc.yacc()
@@ -490,134 +469,23 @@ parser = yacc.yacc()
 
 # Define a rule to rule to read the data
 def readData():
-  # Made using example from https://stackoverflow.com/questions/40416072/reading-a-file-using-a-relative-path-in-a-python-project
-  fileName = Path(__file__).parent / "data.xml"
-  with open(fileName, 'r', encoding='utf-8') as file:
-      data = file.read()
-  return data
+    # Made using example from https://stackoverflow.com/questions/40416072/reading-a-file-using-a-relative-path-in-a-python-project
+    fileName = Path(__file__).parent / "data.xml"
+    with open(fileName, 'r') as file:
+        data = file.read()
+    return data
 
 try:
-  # Try to read the data
-  data = readData()
-  # If it could read the data, parse it
-  parser.parse(data)
-  
+    # Try to read the data
+    data = readData()
+    # If it could read the data, parse it
+    parser.parse(data)
 # If an IO Error exception was thrown reading the data
 except IOError:
-  print("Error: Could not open the data")
-
-print("Las estructuras de datos han sido cargadas a memoria")
-print("Para revisar el estado de contenidos, revisar los .txt generados en la misma carpeta de ejecución")
-
+    print("Error: Could not open the data")
 
 # ------------------  Code for the execution ----------------------------------
 
 # ------------------  Code for the output file generation ---------------------
-
-# write first structure
-first_structure = open("sites_per_topic.txt", "w", encoding='utf-8')
-
-first_structure.write("sites_per_topic\n\n")
-for topic in sites_per_topic:
-  first_structure.writelines(["The topic is: ", topic, "\n"])
-  for site in sites_per_topic[topic]:
-    first_structure.writelines(["\tSite: ", site, "\n"])
-  first_structure.write("\n\n")
-
-first_structure.close()
-
-
-# write second structure
-second_structure = open("visits_per_site_per_year.txt", "w", encoding='utf-8')
-
-second_structure.write("visits_per_site_per_year\n\n")
-
-for year in visits_per_site_per_year:
-  second_structure.writelines(["The year is: ", str(year), "\n"])
-  for site in visits_per_site_per_year[year]:
-    second_structure.writelines(["\tSite: ", site, " has ", str(visits_per_site_per_year[year][site]), " million visits\n"])
-  second_structure.write("\n\n")
-
-second_structure.close()
-
-
-# write third structure
-third_structure = open("visits_per_topic_per_year.txt", "w", encoding='utf-8')
-
-third_structure.write("visits_per_topic_per_year\n\n")
-
-for year in visits_per_topic_per_year:
-  third_structure.writelines(["The year is: ", str(year), "\n"])
-  for topic in visits_per_topic_per_year[year]:
-    third_structure.writelines(["\tTopic: ", topic, " has ", str(visits_per_topic_per_year[year][topic]), " million visits\n"])
-  third_structure.write("\n\n")
-
-third_structure.close()
-
-
-# write fourth structure
-fourth_structure = open("visits_per_region_per_year.txt", "w", encoding='utf-8')
-
-fourth_structure.write("visits_per_region_per_year\n\n")
-
-for year in visits_per_region_per_year:
-  fourth_structure.writelines(["The year is: ", str(year), "\n"])
-  for region in visits_per_region_per_year[year]:
-    fourth_structure.writelines(["\tRegion: ", region, " has ", str(visits_per_region_per_year[year][region]), " million visits\n"])
-  fourth_structure.write("\n\n")
-
-fourth_structure.close()
-
-
-# write fifth structure
-fifth_structure = open("topics_per_site.txt", "w", encoding='utf-8')
-
-fifth_structure.write("topics_per_site\n\n")
-for site in topics_per_site:
-  fifth_structure.writelines(["The site is: ", site, "\n"])
-  for topic in topics_per_site[site]:
-    fifth_structure.writelines(["\tTopic: ", topic, "\n"])
-  fifth_structure.write("\n\n")
-
-fifth_structure.close()
-
-
-# write sixth structure
-sixth_structure = open("url_per_site.txt", "w", encoding='utf-8')
-
-sixth_structure.write("url_per_site\n\n")
-for site in url_per_site:
-  sixth_structure.writelines(["The site is: ", site, "\n"])
-  sixth_structure.writelines(["\tURL: ", url_per_site[site], "\n"])
-  sixth_structure.write("\n\n")
-
-sixth_structure.close()
-
-
-# write seventh structure
-seventh_structure = open("records_per_site.txt", "w", encoding='utf-8')
-
-seventh_structure.write("records_per_site\n\n")
-
-for site in records_per_site:
-  seventh_structure.writelines(["The site is: ", site, "\n"])
-  for record in records_per_site[site]:
-    seventh_structure.writelines(["Record:\n\tInitial Date: ", str(record[0].day), "/", str(record[0].month), "/", str(record[0].year),
-                                "\n\tFinal Date: ", str(record[1].day), "/", str(record[1].month), "/", str(record[1].year),
-                                "\n\tRegion: ", record[2],
-                                "\n\tNumber of visits: ", str(record[3]), " millions \n"])
-  seventh_structure.write("\n\n")
-
-seventh_structure.close()
-
-
-# write eighth structure
-eighth_structure = open("regions_list.txt", "w", encoding='utf-8')
-
-eighth_structure.write("regions_list\n\n")
-for region in regions_list:
-  eighth_structure.writelines(["Region: ", region, "\n"])
-
-eighth_structure.close()
 
 # ------------------  Code for the output file generation ---------------------

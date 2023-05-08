@@ -1,10 +1,10 @@
 # Copyright 2023 Alejandro Jimenez, Joseph Valverde, Kenneth Villalobos
 
-# ------------------------------------------------------------
- # lexsynanalyzer.py
+# -----------------------------------------------------------------------------
+ # main.py
  #
- # lexical and syntactical analyzer for the data file with .xml extension
- # ------------------------------------------------------------
+ # Program that parses information from a xml file and displays it in GUI
+ # ----------------------------------------------------------------------------
 
 # ------------------  Code for ply -------------------------------------
 # Import the library for the lexical analyzer
@@ -489,7 +489,7 @@ parser = yacc.yacc()
 # ------------------  Code for the execution ----------------------------------
 
 # Define a rule to rule to read the data
-def readData():
+def read_data():
   # Made using example from https://stackoverflow.com/questions/40416072/reading-a-file-using-a-relative-path-in-a-python-project
   fileName = Path(__file__).parent / "data.xml"
   with open(fileName, 'r', encoding='utf-8') as file:
@@ -498,7 +498,7 @@ def readData():
 
 try:
   # Try to read the data
-  data = readData()
+  data = read_data()
   # If it could read the data, parse it
   parser.parse(data)
   
@@ -511,7 +511,6 @@ except IOError:
 # ------------------  Code for the interface ----------------------------------
 
 # Importing tkinter module for GUI interface
-
 from tkinter import *
 
 
@@ -521,17 +520,17 @@ from tkinter import *
 
 # ------------------  Code for the graphs -------------------------------------
 
-
 # Creating a tkinter window
 root = Tk()
 
 # Configure the tkinter window
 # Set the title
 root.title('Websites statistics')
-# Set the dimensions
 
+# Import sys to know what system is running the code
 from sys import platform
 
+# Set the dimensions based on the platform
 if platform == 'linux' or platform == 'linux2':
   root.geometry('728x600')
 else:
@@ -582,5 +581,90 @@ def show_list_popUp():
     listbox_popup.insert(END, str(site) + " \t | \t " + str(url_per_site[site]))
   # Add the listbox to the popup
   listbox_popup.pack(fill = BOTH)
+
+# ------------------ First page --------------------------------------------- #
+
+# Create the items of the first page
+title_page0 = Label(pages[0], text = "Welcome!", font = "Helvetica 12 bold")
+instructions_page0 = Label(pages[0], text = "Select the statistic you would like to represent:\n\n", font = "Helvetica 12 bold")
+button0_page0 = Button(pages[0], text = 'Available sites per topic', command = lambda: pages[1].tkraise())
+button1_page0 = Button(pages[0], text = 'Number of visits per site, on a certain year', command = lambda: pages[2].tkraise())
+button2_page0 = Button(pages[0], text = 'Number of visits per topic, on a certain year', command = lambda: pages[3].tkraise())
+button3_page0 = Button(pages[0], text = 'Number of visits per region, on a certain year', command = lambda: pages[4].tkraise())
+
+# Add the items to the first page
+title_page0.pack(fill = BOTH)
+instructions_page0.pack(fill = BOTH)
+button0_page0.pack(fill = BOTH)
+button1_page0.pack(fill = BOTH)
+button2_page0.pack(fill = BOTH)
+button3_page0.pack(fill = BOTH)
+
+# ------------------ Second page -------------------------------------------- #
+
+# Create the items of the second page
+tittle_page1 = Label(pages[1], text = "Available sites per topic", font = "Helvetica 12 bold")
+instructions_page1 = Label(pages[1], text = "Select the topic:", font = "Helvetica 12 bold")
+button0_page1 = Button(pages[1], text = 'Back', command = lambda: pages[0].tkraise())
+button1_page1 = Button(pages[1], text = 'Show sites', command = show_list_popUp)
+listbox_page1 = Listbox(pages[1])
+scrollbar_page1 = Scrollbar(pages[1])
+
+# Add the items to the second page
+tittle_page1.pack(fill = BOTH)
+instructions_page1.pack(fill = BOTH)
+button0_page1.pack(side = BOTTOM)
+button1_page1.pack(side = BOTTOM)
+listbox_page1.pack(fill = BOTH, side = LEFT)
+scrollbar_page1.pack(fill = BOTH, side = RIGHT)
+
+# Configure the listbox with the data from a structure and scrollbar
+configure_listbox(listbox_page1, scrollbar_page1, sites_per_topic)
+
+# ------------------ Third page --------------------------------------------- #
+
+# Create the items of the third page
+tittle_page2 = Label(pages[2], text = 'Number of visits per site, on a certain year', font = "Helvetica 12 bold")
+instructions_page2 = Label(pages[2], text = "Select the year:", font = "Helvetica 12 bold")
+button0_page2 = Button(pages[2], text = 'Back', command = lambda: pages[0].tkraise())
+button1_page2 = Button(pages[2], text = 'Show graph', command = graph_visits_per_site_per_year)
+listbox_page2 = Listbox(pages[2])
+scrollbar_page2 = Scrollbar(pages[2])
+
+# Add the items to the third page
+button0_page2.pack(side = BOTTOM)
+button1_page2.pack(side = BOTTOM)
+tittle_page2.pack(fill = BOTH)
+instructions_page2.pack(fill = BOTH)
+listbox_page2.pack(side = LEFT, fill = BOTH)
+scrollbar_page2.pack(side = RIGHT, fill = BOTH)
+
+# Configure the listbox with the data from a structure and scrollbar
+configure_listbox(listbox_page2, scrollbar_page2, visits_per_site_per_year)
+
+# ------------------ Fourth page -------------------------------------------- #
+
+# Create the items of the fourth page
+tittle_page3 = Label(pages[3], text = "Number of visits per topic, on a certain year", font = "Helvetica 12 bold")
+instructions_page3 = Label(pages[3], text = "Select the year:", font = "Helvetica 12 bold")
+button0_page3 = Button(pages[3], text = 'Back', command = lambda: pages[0].tkraise())
+button1_page3 = Button(pages[3], text = 'Show graph', command = graph_visits_per_topic_per_year)
+listbox_page3 = Listbox(pages[3])
+scrollbar_page3 = Scrollbar(pages[3])
+
+# Add the items to the fourth page
+button0_page3.pack(side = BOTTOM)
+button1_page3.pack(side = BOTTOM)
+tittle_page3.pack(fill = BOTH)
+instructions_page3.pack(fill = BOTH)
+listbox_page3.pack(side = LEFT, fill = BOTH)
+scrollbar_page3.pack(side = RIGHT, fill = BOTH)
+
+# Configure the listbox with the data from a structure and scrollbar
+configure_listbox(listbox_page3, scrollbar_page3, visits_per_topic_per_year)
+
+# ------------------ Fifth page --------------------------------------------- #
+
+# ------------------ Final touches ------------------------------------------ #
 
 # ------------------  Code for the interface ----------------------------------
