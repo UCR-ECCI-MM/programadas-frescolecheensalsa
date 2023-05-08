@@ -1,0 +1,125 @@
+= Primera Tarea - Quinta Entrega = 
+
+== Resumen ==
+
+*Materia:* CI-0124 Computabilidad y Complejidad
+
+*Profesora:* Prof. Maureen Murillo R.
+
+*Asistente:* Adrian Madrigal Azofeifa   
+
+*Grupo:* FrescoLecheEnSalsa
+
+*Autores:* Joseph Valverde, Kenneth Villalobos, Alejandro Jimenez
+
+*Descripción:* Herramienta tal, que a partir de un archivo XML con información de visitas a sitios de Internet, pueda realizar un análisis léxico de los posibles tokens, analizar si la sintaxis de los datos es correcta y guardar los datos en las respectivas estructuras de datos. Una vez almacenados en estructuras de datos se muestran estas estadisticas en graficos a traves de un interfaz grafico.
+
+== Requerimientos ==
+
+Crear una herramienta tal, que a partir de un archivo XML con información de visitas a sitios de Internet pueda realizar un análisis léxico de los posibles tokens analizar si la sintaxis de los datos es correcta y guardar los datos en las respectivas estructuras de datos .
+
+== Solución ==
+
+=== Analizado lexico ===
+
+Se utlizó la biblioteca ply de python, con la cual, a traves del uso de expresiones regulares, se definieron tokens, los cuales son leidos, identificadas y extraidos.  
+
+Se utilizó la herramienta yacc de la biblioteca ply para analizar la sintaxis y dentro de las reglas definidas se rellenaron las estructuras de datos necesarias para el analisis de estadisticas.
+
+=== Paquetes incluidos ===
+
+==== lex ====
+
+`import ply.lex as lex`
+
+Para el analisis lexico con la utilización de expresiones regulares y tokens
+
+==== pathlib ====
+
+`from pathlib import Path`
+
+Para el uso de "paths" absolutos y facilitar el uso del archivo de entrada, independientemente de su localización en el sistema.
+
+==== yacc ====
+
+`import ply.yacc as yacc`
+
+Para el analisis sintáctico.
+
+==== datetime ====
+
+`from datetime import date, datetime`
+
+Para determinar realizar ciertos cálculos con el tiempo antes de agregarlas a las estructuras de datos.
+
+==== Tkinter ====
+
+`from tkinter import *`
+
+Se utiliza para la creacion de un interfaz grafico donde se puedan seleccionar las opciones y despues mostrar los resultados. 
+
+Es importante que para la instalacion de esta biblioteca depende del sistema operativo y la version de python.
+
+Instalar con "pip", pueda bastar, pero en caso de recibir un error en el que la biblioteca no es encontrada, se puede utilizar "pip3" para la instalacion.
+
+De instalarse con Linux y sudo, se puede utilizar:
+
+`sudo apt-get install python3-tk`
+
+==== matplotlib ====
+
+`import matplotlib.pyplot as matplot`
+
+Se utiliza para la graficacion en el interfaz grafico de la informacion previamente recompilada.
+
+
+== Manual de Uso ==
+
+=== Archivo de datos a analizar ===
+
+Para utilizar este programa, se necesita la presencia de un archivo xml, llamado 'data.xml' en la misma carpeta que el ejecutable con el nombre `python lexanalyzer.py`
+
+=== Correr el programa ===
+
+Hay varias maneras de correr el programa en la linea de comando. Dentro de las que se utilizan son: 
+
+- `python lexanalyzer.py`
+- `python3 lexanalyzer.py`
+
+Cual comando sea necesario pueda depender del sistema, y ambos pueden, una vez mas, dependiendo del sistema, ser validos en el mismo sistema.
+
+Posterior a esto, con el interfaz grafico, solo es necesario leer los botones y los titulos para poder guiarse a los resultados y graficos que uno desea visualizar.
+
+
+== Creditos ==
+
+=== Diseñado e impletado por: ===
+
+Joseph Stuart Valverde Kong, C18100
+
+Estudiante de Computación en varios Énfasis en La Universidad de Costa Rica 
+
+*Email:* joseph.valverdekong@ucr.ac.cr
+
+Kenneth Daniel Villalobos Solís, C18548
+
+Estudiante de Computación en varios Énfasis en La Universidad de Costa Rica
+
+*Email:* kenneth.villalobossolis@ucr.ac.cr
+
+Alejandro Jiménez Corea, B84032
+
+Estudiante de Computación en varios Énfasis en La Universidad de Costa Rica
+
+*Email:* alejandro.jimenezcorea@ucr.ac.cr
+
+=== Fuentes ===
+
+Reading a file using a relative path in a Python project (Stack Overflow)
+
+*Encontrado en:* https://stackoverflow.com/questions/40416072/reading-a-file-using-a-relative-path-in-a-python-project 
+
+
+=== Codigo Original/Base ===
+
+Prof. Maureen Murillo R.
