@@ -210,5 +210,44 @@ namespace FrescolecheEnSalsa {
           << "\n\tAmount: " << cookieType.second << std::endl;
     }
   }
+
+  void reportResults(
+      const std::shared_ptr<solutionT> solution,
+      const cookieRestrictions& restrictions) {
+    // if solution is empty
+    if (solution == nullptr || solution->empty()) {
+      // report so
+      std::cout << "No solutions were found" << std::endl;
+
+      return;
+    }
+
+    std::cout << "The best solution found was:" << std::endl;
+
+    size_t packetsCount = 0;
+
+    int netGain = calculateNetGain(*solution,
+        restrictions.packetPrice,
+        restrictions.cookieCosts);
+    double variance = calculateVariance(*solution);
+
+    for (packetT& packet : *solution) {
+      int packetPrice = getPacketPrice(packet, restrictions);
+
+      std::cout << "\nPacket #" << ++packetsCount << std::endl;
+      std::cout << "    Price: " << packetPrice << std::endl;
+
+      // amount of packets
+      printPacket(packet);
+    }
+
+    // Print the total number of packets
+    std::cout << "\nThe total number of packets is: " << solution->size()
+      << std::endl;
+    // Print the total net gain
+    std::cout << "The total net gain is: " << netGain << std::endl;
+    // Print the variability
+    std::cout << "The mean variability is: " << variance << std::endl;
+  }
 };
 #endif
