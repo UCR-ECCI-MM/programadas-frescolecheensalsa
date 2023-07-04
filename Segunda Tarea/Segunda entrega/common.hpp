@@ -182,5 +182,33 @@ namespace FrescolecheEnSalsa {
     
     return cookieString;
   }
+
+  void printPacket(
+      const packetT& packet) {
+    // Map to store the number of cookies on each packet
+    std::map<cookieT, size_t> cookies;
+    // Variability of the packet
+    size_t variability = 0;
+    
+    // For loop to calculate the amount of each cookie on the packet
+    // and the variability
+    for (cookieT cookie : packet) {
+      if (!cookies[cookie]) {
+        ++variability;
+      }
+      ++cookies[cookie];
+    }
+
+    // Print the variability of the packet
+    std::cout << "    Variability: " << variability << std::endl;
+    // Print the total number of cookies on the packet
+    std::cout << "    Cookie amount: " << packet.size() << std::endl; 
+
+    // Print the total of each cookie on the package
+    for(auto cookieType : cookies) {
+      std::cout << "    Cookie: " << *getCookie(cookieType.first)
+          << "\n\tAmount: " << cookieType.second << std::endl;
+    }
+  }
 };
 #endif
