@@ -67,6 +67,49 @@ namespace FrescolecheEnSalsa {
   };
 
   /**
+   * @brief Procedure to calculate the total net gain of a given solution to
+   * Joseph´s problem
+   * @param solution @a solutionT from which the total net gain will be
+   * calculated from
+   * @param packetPrice int with the sale price of the packets
+   * @param cookieCosts vector representing the production cost of each type of
+   * cookie, where index = cookie type
+   * @details The total net gain is going to be equal to the sum of the net gain
+   * on each packet
+   * @details The net gain of a packet is going to be equal to the difference
+   * between the packetPrice and the total production cost of the packet
+   * @details The total production cost of a packet is going to be equal to the
+   * sum of the production cost of each cookie on the packet
+   * @return int with the total net gain of solution
+   */
+  int calculateNetGain(const solutionT& solution,
+    const int packetPrice, const std::vector<int>& cookieCosts) {
+    // Create a variable to store the total net gain of the given solution
+    // and a variable to store the production cost of each packet respectively
+    int totalNetGain = 0, productionCost = 0;
+
+    // For loop to go through all the packets in the given solution
+    for (solutionT::const_iterator packet = solution.cbegin();
+      packet != solution.cend(); ++packet) {
+      // Reset the production cost
+      productionCost = 0;
+
+      // For loop to add the cost of each cookie on the current packet
+      for (size_t cookieIndex = 0; cookieIndex < (*packet).size();
+        ++cookieIndex) {
+        productionCost += cookieCosts[(*packet)[cookieIndex]];
+      }
+
+      // Add the difference between the price per packet and the production
+      // cost of the current packet to the total net gain
+      totalNetGain += (packetPrice - productionCost);
+    }
+
+    // Return the calculated total net gain
+    return totalNetGain;
+  }
+
+  /**
    * @brief Procedure to calculate the variance of a given solution to Joseph´s
    * problem
    * @param solution @a solutionT from which the variance will be calculated
