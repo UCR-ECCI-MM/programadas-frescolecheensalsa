@@ -170,5 +170,17 @@ namespace FrescolecheEnSalsa {
     return packet.size() <= restrictions.packetCapacity // within capacity
         && totalPrice < restrictions.packetPrice; // and within price range
   }
+
+  inline std::shared_ptr<std::string> getCookie(const cookieT cookie) {
+    std::shared_ptr<std::string> cookieString = std::make_shared<std::string>("");
+
+    if (cookie >= 6) {
+      *cookieString += "invalid cookie!!!";
+    }
+
+    *cookieString += cookieNames[cookie];
+    
+    return cookieString;
+  }
 };
 #endif
