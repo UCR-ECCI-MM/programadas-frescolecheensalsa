@@ -4,7 +4,7 @@
 #include "common.hpp"
 
 namespace FrescolecheEnSalsa {
-  std::shared_ptr<solutionT> binPacking(
+  std::shared_ptr<Solution> binPacking(
       const FrescolecheEnSalsa::cookieRestrictions& restrictions,
       const std::vector<size_t>& cookieAmounts // amount of each cookie backed
     ) {
@@ -20,7 +20,7 @@ namespace FrescolecheEnSalsa {
     Cookies cookies(cookieAmounts);
 
     // get a list to place the solution
-    std::shared_ptr<solutionT> solution = std::make_shared<solutionT>();
+    std::shared_ptr<Solution> solution = std::make_shared<Solution>();
 
     // for all cookies
     for (cookieT cookie : cookies) {
@@ -44,12 +44,15 @@ namespace FrescolecheEnSalsa {
       // if none found
       if (!placed) {
         // get a new bin
-        solution->emplace_back(packetT());
+        solution->push_back(packetT());
 
         // place inside just added bin
         solution->back().push_back(cookie);
       }
     }
+
+    solution->setnetGain(restrictions);
+    solution->setVariablity();
 
     return solution;
   }
