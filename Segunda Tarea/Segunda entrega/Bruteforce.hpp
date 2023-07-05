@@ -148,6 +148,54 @@ namespace FrescolecheEnSalsa {
     // Get rid of the new packet
     currentSolution.pop_back();
   }
+
+  /**
+   * @brief Procedure to find the best solution to Joseph´s problem using
+   * brute force (Pure exhaustive search)
+   * @param packetPrice int with the sale price of each cookie packet
+   * @param packetCapacity size_t with the max number of cookies that fit on
+   * each packet
+   * @param cookieCosts vector representing the production cost of each type of
+   * cookie, where index = cookie type
+   * @param cookieAmounts vector representing the number of cookies of each type
+   * that were baked, where index = cookie type
+   * @remark The size of the vectors cookieCosts and cookieAmounts must be equal
+   * since the number of possible cookie types must be consistent
+   * @remark This procedure will print it´s results on the standard output
+   * @details This procedure calls @a void bruteForceR() to work
+   * @see void bruteForceR()
+   */
+  std::shared_ptr<solutionT> bruteForce(
+      FrescolecheEnSalsa::cookieRestrictions& restrictions,
+      const std::vector<size_t>& cookieAmounts
+      ) {
+
+    // If the number of each type of cookie is not consistent
+    if (restrictions.cookieCosts.size() != cookieAmounts.size()) {
+      // Print the error
+      std::cerr << "Error: Inconsistent number of cookie types" << std::endl;
+      return nullptr;
+    }
+
+    // Create a vector to store all the cookies
+    Cookies cookies(cookieAmounts);
+
+    // Create vectors to move through solutions and to store the best
+    // solution respectively
+    std::shared_ptr<solutionT>
+        bestSolution = std::make_shared<solutionT>();
+    solutionT currentSolution;
+
+    // Create variables to store the best net gain and the best variance
+    // found
+    int bestNetGain = 0; double bestVar = 0.0;
+
+    // Call the recursive procedure with the index of the first cookie
+    bruteForceR(0, cookies, currentSolution, *bestSolution,
+      bestNetGain, bestVar, restrictions);
+
+    return bestSolution;
+  }
 } // namespace FrescolecheEnSalsa
 
 #endif
