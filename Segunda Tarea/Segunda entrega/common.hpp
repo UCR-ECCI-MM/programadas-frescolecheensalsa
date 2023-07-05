@@ -67,6 +67,53 @@ namespace FrescolecheEnSalsa {
   };
 
   /**
+   * @brief Typedef for the type used to represent each solution
+   */
+  //typedef std::list<packetT> solutionT;
+  class solutionT :public std::list<packetT> {
+   public:
+    explicit solutionT(std::vector<paquete>& solutionVector) {
+      for (paquete& packet : solutionVector) {
+        this->push_back(std::move(packet.galletas));
+      }
+    }
+
+    solutionT() {}
+  };
+
+  static const char* cookieNames[6] = {
+    "Simple",
+    "Chips",
+    "Double chocolate",
+    "Oatmeal",
+    "Happy (Weed)",
+    "Vegan"
+    };
+
+  class Cookies : public std::vector<cookieT>{
+  public:
+    Cookies(const std::vector<cookieT>& cookieAmounts) : 
+    std::vector<cookieT> () { 
+      size_t size = cookieAmounts.size();
+
+      // for every type
+      for (size_t cookieType = 0; cookieType < size; ++cookieType) {
+        // place in all cookies
+        for (size_t cookie = 0; cookie < cookieAmounts[cookieType]; ++cookie) {
+          // with their type of cookie as value
+          this->push_back(cookieType);
+        }
+      }
+    }
+  };
+
+  struct cookieRestrictions {
+    int packetPrice;
+    size_t packetCapacity;
+    std::vector<int>& cookieCosts;
+  };
+
+  /**
    * @brief Procedure to calculate the total net gain of a given solution to
    * Joseph´s problem
    * @param solution @a solutionT from which the total net gain will be
