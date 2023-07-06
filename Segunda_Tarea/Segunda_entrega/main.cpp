@@ -1,7 +1,7 @@
 // Copyright 2023 Alejandro Jimenez, Joseph Valverde, Kenneth Villalobos
 // FrescolecheEnSalsa
 
-#include "BruteForce.hpp"
+#include "Bruteforce.hpp"
 #include "BinPacking.hpp"
 #include "GeneticAlgorithm.hpp"
 

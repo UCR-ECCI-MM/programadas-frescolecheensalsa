@@ -33,7 +33,28 @@ namespace FrescolecheEnSalsa {
         std::random_device());
     }
 
-      ~GeneticAlgorithm() {}
+    ~GeneticAlgorithm() {}
+
+    std::shared_ptr<Solution> run(
+        const size_t populationSize = 10,
+        const size_t iterations = 10000
+        ) {
+      // Resize the population
+      this->population.resize(populationSize);
+      // Generate a random initial population
+      this->generateInitialPopulation();
+
+      // Reset the seed
+      srand(time(nullptr));
+      
+      // Evolve the population iterations number of times
+      for (size_t it = 0; it < iterations; ++it) {
+        this->evolve();
+      }
+
+      // Return the best solution
+      return std::make_shared<Solution>(this->population[0]);
+    }
 
     // Initializers
   private:
@@ -90,26 +111,6 @@ namespace FrescolecheEnSalsa {
 
       // Return the new solution
       return newSolution;
-    }
-
-    void evolve() {
-      // Add three new solutions to the population by crossing:
-      // 1 and 2
-      // 2 and 3
-      // 3 and 4
-      for (size_t solution = 0; solution < 3; ++solution) {
-        this->population.push_back(this->cross(
-          this->population[solution].front(),
-          this->population[solution+1].front()));
-      }
-
-      // Sort the population from best to worst with the new solutions
-      std::sort(this->population.begin(), this->population.end());
-
-      // Delete the 3 worst solutions
-      for(size_t solution = 0; solution < 3; ++solution){
-        this->population.pop_back();
-      }
     }
 
     void evolve() {
@@ -258,3 +259,5 @@ namespace FrescolecheEnSalsa {
   };
   
 };
+
+#endif
