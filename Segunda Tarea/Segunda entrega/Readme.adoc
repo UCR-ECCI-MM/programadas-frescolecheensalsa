@@ -1,0 +1,86 @@
+= Segunda Tarea Programada = 
+
+== Resumen ==
+
+*Materia:* CI-0124 Computabilidad y Complejidad
+
+*Profesora:* Prof. Maureen Murillo R.
+
+*Asistente:*
+
+*Grupo:* FrescoLecheEnSalsa
+
+*Autores:* Joseph Valverde, Kenneth Villalobos, Alejandro Jimenez
+
+*Descripción:* Programa en c++ que busca optimizar la distribucion de galletas en diferentes paquetes segun restricciones.
+
+== Requerimientos ==
+
+=== Descripción del problema ===
+
+Joseph presenta un emprendimiento de venta de galletas de varios tipos, las cuales empaca y envía en paquetes, los cuales cuentan con un precio de venta P y una capacidad máxima de G galletas cada uno. 
+
+Para dar un toque original a su emprendimiento cada paquete puede contener galletas de 6 tipos distintos, de forma que, la cantidad y tipos de galleta que se reciba en cada paquete es variante. Esto para agregar el factor sorpresa a sus consumidores.
+
+
+=== Restricciones ===
+
+- Cada semana Joseph cocina una cantidad Xn de cada tipo de galleta.
+
+- Joseph desea que los paquetes terminen con un costo de producción de galletas total lo más cercano a P.
+
+- Joseph quiere que sus paquetes de galletas tengan tanta variabilidad como les sea posible sin interferir con la restricción anterior.
+
+== Solución ==
+
+Se utilizan 3 algortimos:
+
+- Algoritmo convencional: Brute Force
+
+- Heuristica: First Fit Bin Packing
+
+- Metaheuristica: Algoritmo Genético
+
+== Compilación ==
+
+Ya que el programa está programado en C++ se requiere que se compile previo a su utilización. Para poder compilarlo solo es requerido correr el comando "make" de la siguiente manera en la terminal:
+
+`make`
+
+El ejecutable se va a crear y va a ser depositado dentro de la carpeta "bin".
+
+y para poder eliminar los ejecutables y otras dependencias generadas es necesario "make clean":
+
+`make clean`
+
+== Ejecución ==
+
+Para poder ejecutar el progama solo es necesario correr el ejecutable según el siguiente formato:
+
+`bin/[ejecutable]`
+
+o desde la carpeta bin:
+
+`./[ejecutable]`
+
+== Creditos ==
+
+=== Diseñado e impletado por: ===
+
+Joseph Stuart Valverde Kong, C18100
+
+Estudiante de Computación en varios Énfasis en La Universidad de Costa Rica 
+
+*Email:* joseph.valverdekong@ucr.ac.cr
+
+Kenneth Daniel Villalobos Solís, C18548
+
+Estudiante de Computación en varios Énfasis en La Universidad de Costa Rica
+
+*Email:* kenneth.villalobossolis@ucr.ac.cr
+
+Alejandro Jiménez Corea, B84032
+
+Estudiante de Computación en varios Énfasis en La Universidad de Costa Rica
+
+*Email:* alejandro.jimenezcorea@ucr.ac.cr
